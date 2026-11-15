@@ -124,6 +124,16 @@ run_cmake(SourceFileJobPool)
 run_cmake(FileSetJobPool)
 run_cmake(JobPoolUsesTerminal)
 
+if(CMAKE_C_COMPILER_ID MATCHES "^(GNU|Clang)$" AND NOT APPLE AND NOT WIN32)
+  function(run_LinkByproducts)
+    run_cmake(LinkByproducts)
+    set(RunCMake_TEST_NO_CLEAN 1)
+    set(RunCMake_TEST_BINARY_DIR ${RunCMake_BINARY_DIR}/LinkByproducts-build)
+    run_cmake_command(LinkByproducts-build ${CMAKE_COMMAND} --build .)
+  endfunction()
+  run_LinkByproducts()
+endif()
+
 run_cmake(RspFileC)
 run_cmake(RspFileCXX)
 if(CMake_TEST_Fortran
