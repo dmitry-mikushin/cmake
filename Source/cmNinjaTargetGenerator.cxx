@@ -1051,6 +1051,12 @@ void cmNinjaTargetGenerator::WriteCompileRule(std::string const& lang,
   // Write the rule for compiling file of the given language.
   rule.Comment = cmStrCat("Rule for compiling ", lang, " files.");
   rule.Description = cmStrCat("Building ", lang, " object $out");
+  // CMAKE_<LANG>_COMPILE_OBJECT_RESTAT: the compiler leaves an up-to-date object
+  // untouched (write-if-changed), so ninja re-checks its timestamp and does not
+  // rerun the archive and link edges that depend on it.
+  if (mf->IsOn(cmStrCat("CMAKE_", lang, "_COMPILE_OBJECT_RESTAT"))) {
+    rule.Restat = "1";
+  }
   this->GetGlobalGenerator()->AddRule(rule);
 
   // Write a separate emit-module rule for Swift (produces .swiftmodule

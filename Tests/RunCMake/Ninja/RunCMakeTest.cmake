@@ -134,6 +134,8 @@ if(CMAKE_C_COMPILER_ID MATCHES "^(GNU|Clang)$" AND NOT APPLE AND NOT WIN32)
   run_LinkByproducts()
 endif()
 
+run_cmake(CompileObjectRestat)
+
 run_cmake(RspFileC)
 run_cmake(RspFileCXX)
 if(CMake_TEST_Fortran
